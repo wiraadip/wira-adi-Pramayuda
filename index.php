@@ -1,33 +1,57 @@
-<?php
-    ob_start();
-    session_start();
-    date_default_timezone_set('Asia/Jakarta');
-    require_once('conf/command.php');
-    require_once('conf/conf.php');
-    header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
-    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-    header("Cache-Control: post-check=0, pre-check=0", false);
-    header("Pragma: no-cache");
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Museum Batik &mdash; Colorlib e-Commerce Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700"> 
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/style.css">
     
-    if(!isset($_SESSION["nama_instansi"])){
-        $querypengaturan                    = bukaquery("select * from setting");
-        while($pengaturan = mysqli_fetch_array($querypengaturan)) {
-            $_SESSION["nama_instansi"]      = $pengaturan["nama_instansi"];
-            $_SESSION["alamat_instansi"]    = $pengaturan["alamat_instansi"];
-            $_SESSION["kabupaten"]          = $pengaturan["kabupaten"];
-            $_SESSION["propinsi"]           = $pengaturan["propinsi"];
-            $_SESSION["kontak"]             = $pengaturan["kontak"];
-            $_SESSION["email"]              = $pengaturan["email"];
-            $_SESSION["kode_ppk"]           = $pengaturan["kode_ppk"];
-            $_SESSION["kode_ppkinhealth"]   = $pengaturan["kode_ppkinhealth"];
-            $_SESSION["kode_ppkkemenkes"]   = $pengaturan["kode_ppkkemenkes"];
-        }
-    }
+  </head>
+  <body>
+  <div class="site-wrap">
+    <?php
+      session_start();
+      $halaman = @$_GET['page'];
+      if(!isset($halaman)){
+        $halaman = "home";
+      }
+      include_once 'header.php';
+      $paging = include_once $halaman.".php";
+      include_once 'footer.php';
+      if(!$paging){
+        echo "Halaman tidak ditemukan";
+      }
+      if(@$_GET['logout']){
+        $_SESSION['login'] = false;
+        $_SESSION['nama_login'] = "";
+        echo "<script>alert('Anda berhasil logout');</script>";
+        echo "<script>window.location.replace('./');</script>";
+      }
+    ?>    
+  </div>
+
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+
+  <script src="js/main.js"></script>
     
-    if(!isset($_SESSION["ses_pasien"])){
-        include_once "indexpengunjung.php";
-    }else{
-        include_once "indexuser.php";
-    }
-?>
+  </body>
+</html>
